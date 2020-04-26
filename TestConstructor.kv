@@ -1,0 +1,71 @@
+<MainWindow>:
+    orientation: 'vertical'
+    canvas:
+        Color:
+            rgb:  .23, .4, .56
+        Rectangle:
+            size: self.size
+    BoxLayout:
+        Image:
+            source: '1.png'
+    BoxLayout:
+        size_hint: 1, .5
+        Label:
+            text: '[anchor=title1][color=f7bc51]КОНСТРУКТОР ТЕСТОВЫХ ЗАДАНИЙ[/color]'
+            markup: True
+            font_size: 39
+    BoxLayout:
+        canvas:
+            Color:
+                rgb:  1, 1, 1
+            Rectangle:
+                size: self.size
+                pos: self.x, self.y
+        Label:
+            text: '[color=3a6790]ВВЕДИТЕ НАЗВАНИЕ УЧЕБНОГО ПРЕДМЕТА[/color]'
+            markup: True
+            font_size: 21
+    BoxLayout:
+        padding: 60, 0, 60, 40
+        canvas:
+            Color:
+                rgb:  1, 1, 1
+            Rectangle:
+                size: self.size
+                pos: self.x, self.y + 5
+        TextInput:
+            border: 4, 4, 4, 4
+            font_size: 21
+            halign: 'center'
+            valign: 'middle'
+    BoxLayout:
+        padding: 350, 0, 350, 0
+        canvas:
+            Color:
+                rgb:  1, 1, 1
+            Rectangle:
+                size: self.size
+                pos: self.x, self.y + 5
+        Button:
+            on_release: root.on_press_button()
+            background_color: 0, 0, 0, 0
+            Image:
+                source: 'Продолжить.png'
+                pos: self.parent.x, self.parent.y
+                size: 100, 100
+                allow_stretch: True
+    BoxLayout:
+        canvas:
+            Color:
+                rgb:  1, 1, 1
+            Rectangle:
+                size: self.size
+                pos: self.x, self.y + 5
+        Label:
+            text: '[color=3a6790]Нет нужного предмета?[/color][color=f7bc51]Добавить[/color]'
+            markup: True
+            font_size: 19
+    BoxLayout:
+        Image:
+            source: '2.png'
+
