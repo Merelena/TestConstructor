@@ -1,4 +1,4 @@
-<MainWindow>:
+<Start>:
     orientation: 'vertical'
     canvas:
         Color:
@@ -34,6 +34,7 @@
                 size: self.size
                 pos: self.x, self.y + 5
         TextInput:
+            id: text_input1
             border: 4, 4, 4, 4
             font_size: 21
             halign: 'center'
@@ -47,7 +48,7 @@
                 size: self.size
                 pos: self.x, self.y + 5
         Button:
-            on_release: root.on_press_button()
+            on_release: root.button_continue()
             background_color: 0, 0, 0, 0
             Image:
                 source: 'Продолжить.png'
@@ -61,10 +62,12 @@
             Rectangle:
                 size: self.size
                 pos: self.x, self.y + 5
-        Label:
+        Button:
+            background_color: 0, 0, 0, 0
             text: '[color=3a6790]Нет нужного предмета?[/color][color=f7bc51]Добавить[/color]'
             markup: True
             font_size: 19
+            on_release: root.button_add_subject()
     BoxLayout:
         Image:
             source: '2.png'

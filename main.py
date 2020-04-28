@@ -6,25 +6,35 @@ from kivy.config import Config
 from kivy.uix.image import Image
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from models import check_database
 
 Config.set('graphics', 'width', 800)
 Config.set('graphics', 'height', 500)
 Config.set('graphics', 'resizable', '0')
 
 
-class MainWindow(BoxLayout):
+class Start(BoxLayout):
+    """ Стартовое окно"""
     def __init__(self, **kwargs):
-        super(MainWindow, self).__init__(**kwargs)
+        super(Start, self).__init__(**kwargs)
 
-    def on_press_button(self):
-        print('Ok')
+    def button_continue(self):
+        """Реакция на нажатие кнопки "Продолжить" стартового окна"""
+        if self.ids.text_input1.text == 'a':
+            check_database()
+        else: print('No')
 
 
-class TestConstructorApp(App):
+    def button_add_subject(self):
+        """Реакция на нажатие кнопки добавления нового учебного предмета"""
+        print('Really OK')
+
+
+class StartApp(App):
     def build(self):
-        return MainWindow()
+        return Start()
 
 
-constructor = TestConstructorApp()
+start = StartApp()
 if __name__ == '__main__':
-    constructor.run()
+    start.run()
