@@ -63,12 +63,34 @@
                 size: self.size
                 pos: self.x, self.y + 5
         Button:
+            id: button1
+            opacity: 0
             background_color: 0, 0, 0, 0
-            text: '[color=3a6790]Нет нужного предмета?[/color][color=f7bc51]Добавить[/color]'
+            text: '[color=e6594b]Учебного предмета не существует. [/color][color=f7bc51]Добавить[/color]'
             markup: True
-            font_size: 19
+            font_size: 15
             on_release: root.button_add_subject()
     BoxLayout:
         Image:
             source: '2.png'
+<AddSubject>:
+    size_hint: .4, .25
+    title: 'Добавить предмет'
+    title_align: 'center'
+    BoxLayout:
+        orientation: 'vertical'
+        TextInput:
+            id: text_input2
+            size_hint: 1, .8
+            halign: 'center'
+            text: 'Название учебного предмета'
+            font_size: 15
+            multiline: False
+            do_undo: True
+            on_focus: root.delete_text()
+            on_text_validate: root.add_subject()
+        Button:
+            text: 'Добавить'
+            font_size: 20
+            on_release: root.add_subject()
 
