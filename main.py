@@ -1,19 +1,23 @@
 from kivy.app import App
-from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.anchorlayout import AnchorLayout
 from kivy.config import Config
-from kivy.uix.image import Image
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
 from models import check_database, add_subject_to_db
 from kivy.uix.popup import Popup
+import test_constructor
 
 Config.set('graphics', 'width', 800)
 Config.set('graphics', 'height', 500)
 Config.set('graphics', 'resizable', '0')
 
-global subject, start, popup
+global subject, start, popup, flag, enable_continue
+
+
+class StartApp(App):
+    def build(self):
+        global start
+        self.title = 'Контструктор тестовых заданий'
+        start = Start()
+        return start
 
 
 class Start(BoxLayout):
@@ -23,10 +27,12 @@ class Start(BoxLayout):
 
     def button_continue(self):
         """Реакция на нажатие кнопки "Продолжить" стартового окна"""
+        global flag, enable_continue
         flag = check_database(self.ids.text_input1.text)    # Проверка наличия учебного предмета в БД
         # Если учебного предмета нет в БД, появляется кнопка для добавления
         if not flag:
-            self.ids.button1.opacity = 1
+            start.ids.button1.opacity = 1
+        else: start_app.stop()
 
     def button_add_subject(self):
         """Реакция на нажатие кнопки добавления нового учебного предмета"""
@@ -53,12 +59,9 @@ class AddSubject(Popup):
         self.ids.text_input2.text = ''
 
 
-class TestConstructorApp(App):
-    def build(self):
-        global start
-        start = Start()
-        return start
+start_app = StartApp()
 
 
 if __name__ == '__main__':
-    TestConstructorApp().run()
+    StartApp().run()
+    test_constructor.TestConstructorApp().run()
