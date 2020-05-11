@@ -32,7 +32,12 @@ class Start(BoxLayout):
         # Если учебного предмета нет в БД, появляется кнопка для добавления
         if not flag:
             start.ids.button1.opacity = 1
-        else: start_app.stop()
+        else:
+            start_app.stop()
+            subject_file = open('subject.txt', 'w')
+            subject_file.write(self.ids.text_input1.text)
+            subject_file.close()
+
 
     def button_add_subject(self):
         """Реакция на нажатие кнопки добавления нового учебного предмета"""
@@ -63,5 +68,8 @@ start_app = StartApp()
 
 
 if __name__ == '__main__':
-    StartApp().run()
-    test_constructor.TestConstructorApp().run()
+    start_app.run()
+    while not flag:
+        continue
+    test_constructor = test_constructor.TestConstructorApp()
+    test_constructor.run()
