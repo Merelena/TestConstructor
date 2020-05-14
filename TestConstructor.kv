@@ -6,12 +6,14 @@
         Rectangle:
             size: self.size
     BoxLayout:
+        size_hint: 1, .4
         Image:
             source: '1.png'
     BoxLayout:
+        size_hint: 1, .5
         oriental: 'horizontal'
         BoxLayout:
-            oriental: 'vertical'
+            oriental: 'horizontal'
             Label:
                 text:'[size=25][color=f7bc51][b]КОНСТРУКТОР ТЕСТОВЫХ ЗАДАНИЙ[/b][/color][/size]\n[size=18][color=f7bc51]Рандомизация вариантов проверочных работ[/color][/size]'
                 markup: True
@@ -22,13 +24,105 @@
                     rgb:  .99, .95, .73
                 Rectangle:
                     size: self.size
-                    pos: self.x, self.y
+                    pos: self.x + 25, self.y
             Label:
                 id: label1
                 markup: True
     BoxLayout:
         oriental: 'horizontal'
+        ScrollView:
+            BoxLayout:
+                id: box
+                oriental:'vertical'
+        GridLayout:
+            size_hint: .433, 1
+            cols: 1
+            rows: 4
+            canvas:
+                Color:
+                    rgb:  1, 1, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.x, self.y
+            Button:
+                text: '[color=3a6790][size=25][b]Создать тест[/b][/size][/color]'
+                markup: True
+                background_color: 0, 0, 0, 0
+                on_release: root.button_create_test()
+            Label:
+                size_hint: 1, .5
+                text: '[color=3a6790]Название теста:[/color]'
+                markup: True
+            TextInput:
+                id: text_input1
+                font_size: 20
+                halign: 'center'
+                multiline: False
+                on_text_validate: root.button_create_test()
+            Button:
+                text: '[color=3a6790][size=20]Выход[/size][/color]'
+                markup: True
+                background_color: 0, 0, 0, 0
+                on_release: app.get_running_app().stop()
     BoxLayout:
+        size_hint: 1, .4
         Image:
             source: '2.png'
+<EditTest>
+    title: 'Редактор теста'
+    BoxLayout:
+        orientation: 'horizontal'
+        TabbedPanel:
+            size_hint: .6, 1
+            do_default_tab: False
+            tab_pos: 'right_top'
+            TabbedPanelItem:
+                text: '1 уровень'
+                Button:
+                    text: 'Добавить задание'
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 10
+            GridLayout:
+                spacing: 10
+                size_hint: 1, .12
+                cols: 3
+                rows: 1
+                Button:
+                    text: 'Добавить\nуровень'
+                    font_size: 13
+                Button:
+                    text: 'Удалить\nуровень'
+                    font_size: 13
+                Button:
+                    size_hint: .62, 1
+                    text: 'Сохранить\nзапись'
+                    font_size: 13
+            BoxLayout:
+                spacing: 10
+                orientation: 'horizontal'
+                TextInput:
+                    text: 'Добавить запись...'
+                GridLayout:
+                    spacing: 20
+                    padding: 0, 30, 0, 30
+                    size_hint: .3, 1
+                    cols: 1
+                    rows: 5
+                    Button:
+                        text: 'Удалить\nзапись'
+                        font_size: 13
+                    Button:
+                        text: 'Вставить\nсимвол'
+                        font_size: 13
+                    Button:
+                        text: 'Вставить\nрисунок'
+                        font_size: 13
+                    Button:
+                        text: 'Назад'
+                        font_size: 13
+                        on_release: root.return_to_base_window()
+                    Label:
+                        text: '[size=13][color=ff0000]Не забудьте\nсохранить[/color][/size]'
+                        markup: True
 

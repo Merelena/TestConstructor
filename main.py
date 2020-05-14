@@ -15,7 +15,7 @@ global subject, start, popup, flag, enable_continue
 class StartApp(App):
     def build(self):
         global start
-        self.title = 'Контструктор тестовых заданий'
+        self.title = 'Конструктор тестовых заданий'
         start = Start()
         return start
 
@@ -66,10 +66,9 @@ class AddSubject(Popup):
 
 start_app = StartApp()
 
-
 if __name__ == '__main__':
     start_app.run()
     while not flag:
         continue
-    test_constructor = test_constructor.TestConstructorApp()
-    test_constructor.run()
+    test_constr = test_constructor.TestConstructorApp()
+    test_constr.run()
