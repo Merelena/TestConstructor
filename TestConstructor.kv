@@ -71,58 +71,50 @@
 <EditTest>
     title: 'Редактор теста'
     BoxLayout:
+        spacing: 10
         orientation: 'horizontal'
-        TabbedPanel:
-            size_hint: .6, 1
-            do_default_tab: False
-            tab_pos: 'right_top'
-            TabbedPanelItem:
-                text: '1 уровень'
-                Button:
-                    text: 'Добавить задание'
         BoxLayout:
-            orientation: 'vertical'
             padding: 10
-            GridLayout:
-                spacing: 10
-                size_hint: 1, .12
-                cols: 3
-                rows: 1
-                Button:
-                    text: 'Добавить\nуровень'
-                    font_size: 13
-                Button:
-                    text: 'Удалить\nуровень'
-                    font_size: 13
-                Button:
-                    size_hint: .62, 1
-                    text: 'Сохранить\nзапись'
-                    font_size: 13
-            BoxLayout:
-                spacing: 10
-                orientation: 'horizontal'
-                TextInput:
-                    text: 'Добавить запись...'
+            orientation: 'vertical'
+            TextInput:
+                id: task
+                text: 'Текст задания'
+            ScrollView:
                 GridLayout:
-                    spacing: 20
-                    padding: 0, 30, 0, 30
-                    size_hint: .3, 1
+                    id: tasks
                     cols: 1
-                    rows: 5
-                    Button:
-                        text: 'Удалить\nзапись'
-                        font_size: 13
-                    Button:
-                        text: 'Вставить\nсимвол'
-                        font_size: 13
-                    Button:
-                        text: 'Вставить\nрисунок'
-                        font_size: 13
-                    Button:
-                        text: 'Назад'
-                        font_size: 13
-                        on_release: root.return_to_base_window()
-                    Label:
-                        text: '[size=13][color=ff0000]Не забудьте\nсохранить[/color][/size]'
-                        markup: True
+        GridLayout:
+            spacing: 10
+            padding: 10
+            size_hint: .8, 1
+            cols: 2
+            Label:
+                text: 'Уровень задания'
+            TextInput:
+                id: level
+            Button:
+                text: 'Вставить рисунок'
+            TextInput:
+                id: picture
+                text: 'Имя файла'
+            Button:
+                text: 'Новое задание'
+                on_release: root.add_task()
+            Button:
+                text: 'Удалить задание'
+            Button:
+                text: 'Очистить задание'
+            Button:
+                text: 'Сохранить задание'
+                on_release: root.save_task()
+            Button:
+                text: 'Открыть задание'
+            TextInput:
+                text: '№ задания'
+            Button:
+                text: 'Удалить тест'
+                on_release: root.delete_test()
+            Button:
+                text: 'Назад'
+                on_release: root.return_to_base_window()
 
