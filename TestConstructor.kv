@@ -30,14 +30,16 @@
                 markup: True
     BoxLayout:
         oriental: 'horizontal'
-        ScrollView:
-            BoxLayout:
-                id: box
-                oriental:'vertical'
+        TextInput:
+            padding: 45, 0, 45, 0
+            id: tests
+            font_size: 25
+            readonly: True
+            background_color: 0, 0, 0, 0
+            foreground_color: 1, 1, 1, 1
         GridLayout:
             size_hint: .433, 1
             cols: 1
-            rows: 4
             canvas:
                 Color:
                     rgb:  1, 1, 1
@@ -45,7 +47,7 @@
                     size: self.size
                     pos: self.x, self.y
             Button:
-                text: '[color=3a6790][size=25][b]Создать тест[/b][/size][/color]'
+                text: '[color=3a6790][size=20][b]Создать тест[/b][/size][/color]'
                 markup: True
                 background_color: 0, 0, 0, 0
                 on_release: root.button_create_test()
@@ -60,7 +62,22 @@
                 multiline: False
                 on_text_validate: root.button_create_test()
             Button:
-                text: '[color=3a6790][size=20]Выход[/size][/color]'
+                text: '[color=3a6790][size=20][b]Печать теста в файл[/b][/size][/color]'
+                markup: True
+                background_color: 0, 0, 0, 0
+                on_release: root.button_create_test()
+            Label:
+                size_hint: 1, .5
+                text: '[color=3a6790]Название теста:[/color]'
+                markup: True
+            TextInput:
+                id: text_input1
+                font_size: 20
+                halign: 'center'
+                multiline: False
+                on_text_validate: root.button_create_test()
+            Button:
+                text: '[color=3a6790][size=20][b]Выход[/b][/size][/color]'
                 markup: True
                 background_color: 0, 0, 0, 0
                 on_release: app.get_running_app().stop()
@@ -79,10 +96,11 @@
             TextInput:
                 id: task
                 text: 'Текст задания'
-            ScrollView:
-                GridLayout:
-                    id: tasks
-                    cols: 1
+            TextInput:
+                id: tasks
+                readonly: True
+                background_color: 0, 0, 0, 0
+                foreground_color: 1, 1, 1, 1
         GridLayout:
             spacing: 10
             padding: 10
@@ -94,23 +112,31 @@
                 id: level
             Button:
                 text: 'Вставить рисунок'
+                on_release: root.paste_picture()
             TextInput:
                 id: picture
-                text: 'Имя файла'
+                text: 'Имя файла с расширением'
+            Button:
+                text: 'Удалить задание'
+                on_release: root.delete_task()
+            TextInput:
+                id: delete_task_number
+                text: '№ задания'
             Button:
                 text: 'Новое задание'
                 on_release: root.add_task()
             Button:
-                text: 'Удалить задание'
-            Button:
                 text: 'Очистить задание'
+                on_release: root.clean_task()
+            Button:
+                text: 'Открыть задание'
+                on_release: root.open_task()
+            TextInput:
+                id: task_number
+                text: '№ задания'
             Button:
                 text: 'Сохранить задание'
                 on_release: root.save_task()
-            Button:
-                text: 'Открыть задание'
-            TextInput:
-                text: '№ задания'
             Button:
                 text: 'Удалить тест'
                 on_release: root.delete_test()
