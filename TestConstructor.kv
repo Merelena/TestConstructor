@@ -11,9 +11,9 @@
             source: '1.png'
     BoxLayout:
         size_hint: 1, .5
-        oriental: 'horizontal'
+        orientation: 'horizontal'
         BoxLayout:
-            oriental: 'horizontal'
+            orientation: 'horizontal'
             Label:
                 text:'[size=25][color=f7bc51][b]КОНСТРУКТОР ТЕСТОВЫХ ЗАДАНИЙ[/b][/color][/size]\n[size=18][color=f7bc51]Рандомизация вариантов проверочных работ[/color][/size]'
                 markup: True
@@ -29,14 +29,26 @@
                 id: label1
                 markup: True
     BoxLayout:
-        oriental: 'horizontal'
-        TextInput:
-            padding: 45, 0, 45, 0
-            id: tests
-            font_size: 25
-            readonly: True
-            background_color: 0, 0, 0, 0
-            foreground_color: 1, 1, 1, 1
+        orientation: 'horizontal'
+        BoxLayout:
+            orientation: 'vertical'
+            BoxLayout:
+                padding: 45, 0, 45, 0
+                size_hint: 1, .15
+                orientation: 'horizontal'
+                Button:
+                    text: 'Открыть тест'
+                    on_release: root.open_test()
+                TextInput:
+                    id:text_input3
+                    text: ' Название теста'
+            TextInput:
+                padding: 45, 0, 45, 0
+                id: tests
+                font_size: 25
+                readonly: True
+                background_color: 0, 0, 0, 0
+                foreground_color: 1, 1, 1, 1
         GridLayout:
             size_hint: .433, 1
             cols: 1
@@ -65,13 +77,12 @@
                 text: '[color=3a6790][size=20][b]Печать теста в файл[/b][/size][/color]'
                 markup: True
                 background_color: 0, 0, 0, 0
-                on_release: root.button_create_test()
             Label:
                 size_hint: 1, .5
                 text: '[color=3a6790]Название теста:[/color]'
                 markup: True
             TextInput:
-                id: text_input1
+                id: text_input2
                 font_size: 20
                 halign: 'center'
                 multiline: False
