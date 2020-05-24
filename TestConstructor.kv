@@ -69,28 +69,38 @@
                 markup: True
             TextInput:
                 id: text_input1
-                font_size: 20
+                font_size: 15
                 halign: 'center'
                 multiline: False
                 on_text_validate: root.button_create_test()
             Button:
-                text: '[color=3a6790][size=20][b]Печать теста в файл[/b][/size][/color]'
+                text: '[color=3a6790][size=20][b]Сгенерировать тест[/b][/size][/color]'
                 markup: True
                 background_color: 0, 0, 0, 0
+                on_release: root.button_generate_test()
             Label:
                 size_hint: 1, .5
                 text: '[color=3a6790]Название теста:[/color]'
                 markup: True
             TextInput:
                 id: text_input2
-                font_size: 20
+                font_size: 15
                 halign: 'center'
                 multiline: False
-                on_text_validate: root.button_create_test()
+            Label:
+                size_hint: 1, .5
+                text: '[color=3a6790]Количество вариантов:[/color]'
+                markup: True
+            TextInput:
+                id: number_of_variants
+                font_size: 15
+                halign: 'center'
+                multiline: False
             Button:
                 text: '[color=3a6790][size=20][b]Выход[/b][/size][/color]'
                 markup: True
                 background_color: 0, 0, 0, 0
+                on_press: root.exit()
                 on_release: app.get_running_app().stop()
     BoxLayout:
         size_hint: 1, .4
@@ -154,4 +164,15 @@
             Button:
                 text: 'Назад'
                 on_release: root.return_to_base_window()
+<GenerateTest>:
+    size_hint: .3, .3
+    title: 'Укажите имя нового файла'
+    BoxLayout:
+        orientation: 'vertical'
+        TextInput:
+            id: input_path
+        Button:
+            text: 'Сгенерировать'
+            on_release: root.generate_test()
+
 

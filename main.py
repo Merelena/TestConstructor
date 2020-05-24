@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.config import Config
-from models import check_database, add_subject_to_db
+from models import check_database, add_subject_to_db, open_db
 from kivy.uix.popup import Popup
 import test_constructor
 
@@ -67,8 +67,12 @@ class AddSubject(Popup):
 start_app = StartApp()
 
 if __name__ == '__main__':
+    open_db()
+    from models import conn
     start_app.run()
     while not flag:
         continue
+    conn.close()
     test_constr = test_constructor.TestConstructorApp()
     test_constr.run()
+    conn.close()

@@ -1,144 +1,141 @@
 import sqlite3
 
 
-def check_database(subject):
+global cursor, conn
+
+
+def open_db():
+    global cursor, conn
     conn = sqlite3.connect('TestConstructorDB.db')
     cursor = conn.cursor()
+
+
+def check_database(subject):
+    global cursor
     cursor.execute("""
     SELECT subject_name FROM Subjects
     """)
     response = cursor.fetchall()
-    return (subject,) in response;
-    print('Done')
-    conn.commit()
-    conn.close()
+    return (subject,) in response
 
 
 def add_subject_to_db(subject):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+    global cursor, conn
     cursor.execute(f"""
     INSERT INTO Subjects(subject_name) VALUES ('{subject}');
     """)
-    print('Done')
     conn.commit()
-    conn.close()
 
 
 def create_test(name):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+    global cursor, conn
     cursor.execute(f"""
         INSERT INTO Tests(test_name) VALUES ('{name}');
         """)
-    print('Done')
     conn.commit()
-    conn.close()
-
 
 
 def save_new_task(task, level, id_subject, test_name):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+    global cursor, conn
     cursor.execute(f"""
             INSERT INTO Tasks(task_text, level, id_subject, id_test) 
-VALUES ('{task}', '{level}', '{id_subject}', '{search_test_id(test_name)}');
+VALUES ('{task}', '{level}', '{id_subject}', '{search_test_id(test_name)[0]}');
             """)
-    print('z')
     conn.commit()
-    conn.close()
 
 
 def save_task(task, level, id_task):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+    global cursor, conn
     cursor.execute(f"""
                 UPDATE Tasks  SET task_text='{task}', level='{level}' WHERE id_tasks='{id_task}';
                 """)
-    print('z')
     conn.commit()
-    conn.close()
 
 
 def search_subject_id(subject):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+    global cursor
     cursor.execute(f"""
             SELECT id_subject FROM Subjects WHERE subject_name='{subject}';
             """)
     print('Done')
-    return cursor.fetchall()[0]
-    conn.close()
+    return cursor.fetchall()[0][0]
 
 
 def search_test_id(test_name):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+    global cursor
     cursor.execute(f"""
-                SELECT id_test FROM Tests WHERE test_name='{test_name}';
+                SELECT DISTINCT id_test FROM Tests WHERE test_name='{test_name}';
                 """)
-    print('Done')
-    return cursor.fetchall()[0]
-    conn.close()
+    response = cursor.fetchall()[0]
+    return response if response else None
 
 
 def delete_test(test_name):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
-    cursor.execute(f"""
-                   DELETE FROM Tests WHERE test_name='{test_name}';
-                   """)
+    global cursor, conn
     cursor.execute(f"""
                        DELETE FROM Tasks WHERE id_test='{search_test_id(test_name)}';
                        """)
-    print('Done')
+    cursor.execute(f"""
+                   DELETE FROM Tests WHERE test_name='{test_name}';
+                   """)
     conn.commit()
-    conn.close()
 
 
 def search_task(task, level, id_subject, test_name):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
-    id_test = search_test_id(test_name)
+    global cursor
+    id_test = search_test_id(test_name)[0]
+    """conn = sqlite3.connect('TestConstructorDB.db')
+    cursor = conn.cursor()"""
     cursor.execute(f"""SELECT id_tasks FROM Tasks WHERE task_text='{task}' AND level='{level}' 
 AND id_subject='{id_subject}' AND id_test='{id_test}';""")
-    print('Done save task')
     return cursor.fetchall()[0][0]
-    conn.close()
 
 
 def show_tasks(test_name, id_subject):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+    global cursor
     id_test = search_test_id(test_name)
-    cursor.execute(f"""SELECT id_tasks, level FROM Tasks WHERE id_test='{search_test_id(test_name)}' AND id_subject='{id_subject}';""")
-    print('Done show tasks')
-    return cursor.fetchall()
-    conn.close()
+    """conn = sqlite3.connect('TestConstructorDB.db')
+     cursor = conn.cursor()"""
+    cursor.execute(f"""SELECT id_tasks, level FROM Tasks WHERE id_test IN (
+SELECT id_test FROM Tests WHERE test_name='{test_name}') AND id_subject='{id_subject}';""")
+    response = cursor.fetchall()
+    return response
 
-def show_tests():
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+
+def show_tests(subject):
+    global cursor
     cursor.execute(
-        f"""SELECT DISTINCT test_name FROM Tests;""")
+        f"""SELECT DISTINCT test_name FROM Tests WHERE id_test in (SELECT id_test FROM Tasks WHERE id_subject in 
+(SELECT id_subject FROM Subjects WHERE subject_name='{subject}'));""")
     print('Done show tests')
     return cursor.fetchall()
-    conn.close()
+
 
 def open_task(id_task):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+    global cursor
     cursor.execute(
         f"""SELECT task_text, level FROM Tasks WHERE id_tasks='{id_task}';""")
     print('Done open task')
     return cursor.fetchall()
-    conn.close()
+
 
 def delete_task(id_task):
-    conn = sqlite3.connect('TestConstructorDB.db')
-    cursor = conn.cursor()
+    global cursor, conn
     cursor.execute(
         f"""DELETE FROM Tasks WHERE id_tasks='{id_task}';""")
     print('Done delete task')
-    return cursor.fetchall()
-    conn.close()
+    conn.commit()
+
+
+def number_of_tests(subject):
+    global cursor
+    cursor.execute(
+        f"""SELECT COUNT(id_test) FROM Tasks WHERE id_subject in (SELECT id_subject FROM Subjects WHERE subject_name='{subject}');""")
+    return (cursor.fetchall())[0][0]
+
+
+def get_tasks(level, id_test):
+    global cursor
+    cursor.execute(f""" SELECT task_text FROM Tasks WHERE level='{level}' AND id_test='{id_test}';""")
+    tasks = cursor.fetchall()
+    yield tasks
